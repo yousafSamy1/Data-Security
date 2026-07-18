@@ -30,6 +30,7 @@ An ultra-modern, interactive **Desktop Cryptographic Application** built in Pyth
 
 ## ⚙️ Installation & Usage
 
+### Option 1: Run Python Script directly
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/yousafSamy1/Data-Security.git
@@ -45,3 +46,13 @@ An ultra-modern, interactive **Desktop Cryptographic Application** built in Pyth
    ```bash
    python security_gui.py
    ```
+
+---
+
+### Option 2: Build Standalone Windows Executable (.exe)
+To package the application into a standalone `.exe` file for Windows:
+
+```bash
+pyinstaller CyberSecuritySuite.spec
+```
+The compiled executable will be generated in `dist/CyberSecuritySuite.exe`.
