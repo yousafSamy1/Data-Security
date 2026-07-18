@@ -1,9 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import string
 import math
 import base64
+import os
 from sympy import mod_inverse
 from pycipher import ColTrans
 
@@ -76,7 +78,7 @@ def encrypt_columnar(text: str, key: str) -> str:
     return ColTrans(key).encipher(text)
 
 def decrypt_columnar(text: str, key: str) -> str:
-    return ColTrans(key).decipher(text)
+    return ColTrans(text if not key else key).decipher(text)
 
 def rsa_generate_keys(p: int, q: int, e: int):
     n = p * q
@@ -130,14 +132,35 @@ class RSAReq(BaseModel):
     mode: str = "Encrypt"
 
 # ---------------------------
-# API Endpoints
+# Root HTML Route for Web UI
+# ---------------------------
+
+@app.get("/", response_class=HTMLResponse)
+def get_root():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    candidates = [
+        os.path.join(base_dir, "public", "index.html"),
+        os.path.join(base_dir, "index.html"),
+        "public/index.html",
+        "index.html"
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return HTMLResponse(content=f.read())
+    return HTMLResponse(content="<h1>Cyber Shield Engine Serverless Online</h1>")
+
+# ---------------------------
+# API Endpoints (both /api/ and / routes for maximum flexibility)
 # ---------------------------
 
 @app.get("/api/health")
+@app.get("/health")
 def health():
     return {"status": "ok", "system": "Cyber Shield Engine v3.0"}
 
 @app.post("/api/caesar")
+@app.post("/caesar")
 def process_caesar(req: CaesarReq):
     try:
         if req.mode == "Encrypt":
@@ -149,6 +172,7 @@ def process_caesar(req: CaesarReq):
         raise HTTPException(status_code=400, detail=str(err))
 
 @app.post("/api/columnar")
+@app.post("/columnar")
 def process_columnar(req: ColumnarReq):
     try:
         if not req.key.strip():
@@ -162,6 +186,7 @@ def process_columnar(req: ColumnarReq):
         raise HTTPException(status_code=400, detail=str(err))
 
 @app.post("/api/affine")
+@app.post("/affine")
 def process_affine(req: AffineReq):
     try:
         if req.mode == "Encrypt":
@@ -173,6 +198,7 @@ def process_affine(req: AffineReq):
         raise HTTPException(status_code=400, detail=str(err))
 
 @app.post("/api/rsa")
+@app.post("/rsa")
 def process_rsa(req: RSAReq):
     try:
         (pub_e, n), (priv_d, n2) = rsa_generate_keys(req.p, req.q, req.e)
