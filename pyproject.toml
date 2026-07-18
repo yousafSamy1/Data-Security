@@ -1,0 +1,13 @@
+[tool.vercel]
+entrypoint = "api.index:app"
+
+[project]
+name = "cyber-security-suite"
+version = "3.0.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.117.1",
+    "sympy>=1.12",
+    "pycipher>=0.5.2",
+    "pydantic>=2.0"
+]
