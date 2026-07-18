@@ -1,11 +1,12 @@
 # 🛡️ Cyber Security Encryption Suite Pro
 
-An ultra-modern, interactive **Desktop Cryptographic Application** built in Python with **CustomTkinter**. Features real-time cipher stream animations, Shannon entropy analytics, base converters, and symmetric & asymmetric cryptographic algorithms.
+An ultra-modern, interactive **Security Suite** available both as a **Vercel Serverless Web Application** (FastAPI backend + Modern Cyberpunk Web UI) and as a **Desktop Application** (CustomTkinter GUI).
 
 ---
 
 ## 🌟 Key Features
 
+* 🌐 **Vercel Serverless Ready**: Native FastAPI serverless entrypoint (`api/index.py`) and Web Client (`public/index.html`).
 * 🎨 **Obsidian Dark Cyberpunk Interface**: Sleek dark mode design with glowing cyan & purple accents.
 * ⚡ **Live Matrix Stream Animations**: Cyberpunk letter-scramble animations during encryption and decryption.
 * 📊 **Shannon Entropy Analytics**: Live bits/symbol entropy calculation and character length counter.
@@ -28,30 +29,31 @@ An ultra-modern, interactive **Desktop Cryptographic Application** built in Pyth
 
 ---
 
-## ⚙️ Installation & Usage
+## 🚀 Deployment on Vercel
 
-### Option 1: Run Python Script directly
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yousafSamy1/Data-Security.git
-   cd Data-Security
-   ```
+This repository is configured out-of-the-box for **Vercel Python Serverless Deployment**:
 
-2. **Install required dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+- **Python Entrypoint**: `api/index.py` configured via `pyproject.toml` (`tool.vercel.entrypoint = "api.index:app"`).
+- **Web Frontend**: `public/index.html` routed seamlessly via `vercel.json`.
 
-3. **Run the application**:
-   ```bash
-   python security_gui.py
-   ```
+Simply import this GitHub repository (`yousafSamy1/Data-Security`) into [Vercel](https://vercel.com/new) and click **Deploy**!
 
 ---
 
-### Option 2: Build Standalone Windows Executable (.exe)
-To package the application into a standalone `.exe` file for Windows:
+## ⚙️ Local Development & Desktop App
 
+### Option 1: Run Web Engine locally
+```bash
+pip install -r requirements.txt
+uvicorn api.index:app --reload
+```
+
+### Option 2: Run CustomTkinter Desktop GUI
+```bash
+python security_gui.py
+```
+
+### Option 3: Build Standalone Windows Executable (.exe)
 ```bash
 pyinstaller CyberSecuritySuite.spec
 ```
