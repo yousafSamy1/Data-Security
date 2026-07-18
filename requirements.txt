@@ -1,0 +1,4 @@
+customtkinter>=6.0.0
+sympy>=1.12
+pycipher>=0.5.2
+pillow>=10.0.0
